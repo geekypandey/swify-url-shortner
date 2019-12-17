@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Swify!</title>
+	<style>
+	h1{
+		text-align:center;	
+	}
+	</style>
+</head>
+<body>
+	<h1>Welcome to Swify!</h1>
+	<form method="POST">
+	{{ form.hidden_tag() }}
+	<p>{{ form.url.label }}{{ form.url()}}</p>
+	<p>{{ form.submit }}</p>
+	</form>
+</body>
+</html>
