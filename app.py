@@ -1,7 +1,7 @@
 import os
 import string
 
-from flask import Flask,render_template,redirect,url_for
+from flask import Flask,render_template,redirect,url_for,request
 from flask_wtf import FlaskForm
 from wtforms.fields import StringField,SubmitField
 from flask_sqlalchemy import SQLAlchemy
@@ -51,7 +51,8 @@ def index():
 
 @app.route('/short_url/<string:short_url>')
 def show_url(short_url):
-    url = f'127.0.0.1:5000/{short_url}'
+    host = request.headers.get('host')
+    url = f'{host}/{short_url}'
     return render_template('short_url.html',url=url)
 
 @app.route('/<string:short_url>')
