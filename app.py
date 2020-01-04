@@ -5,9 +5,11 @@ from flask import Flask,render_template,redirect,url_for,request
 from flask_wtf import FlaskForm
 from wtforms.fields import StringField,SubmitField
 from flask_sqlalchemy import SQLAlchemy
+from flask_bootstrap import Bootstrap
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')  #get secret key from environment
+bootstrap = Bootstrap(app)
+app.config['SECRET_KEY'] = 'uKUAvkuscabZjkas'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
 db = SQLAlchemy(app)
@@ -22,9 +24,9 @@ class UrlForm(FlaskForm):
     url = StringField('Enter your url here:')
     submit = SubmitField('Submit')
 
-@app.before_first_request
-def create_db():
-    db.create_all()
+# @app.before_first_request
+# def create_db():
+#     db.create_all()
 
 @app.route('/',methods=['POST','GET'])
 def index():
