@@ -1,41 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-	<!-- Required meta tags -->
-    <meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	
-	<title>Swify!</title>
-	<style>
-	h1{
-		text-align:center;	
-	}
-	</style>
-</head>
-<body>
-	<h1>Welcome to Swify!</h1>
-	<div class= "col-md-4 col-md-offset-4 text-center" style="vertical-align:middle">
-		<form method="POST">
-			{{ form.hidden_tag() }}
-			<div class="container-fluid centering">
-				<div class="row row-fluid">
-					<div class="col-sm-6 col-sm-offset-3">
-						<div class="col-auto">
-							<label class="sr-only" for="inlineFormInput">Enter URL</label>
-							<input type="text" class="form-control mb-2" id="inlineFormInput" placeholder="Jane Doe">
-						</div>
-						<div class="col-auto">
-							<button type="submit" class="btn btn-primary mb-2">Submit</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</form>
-	</div>
+{% extends "bootstrap/base.html" %} {% block title %}Swify!{% endblock %} {% block navbar %}
+<div class="navbar navbar-inverse" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+				<span class="sr-only">Toggle Navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+            </button>
 
-	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-</body>
-</html>
+            <a class="navbar-brand" href="/">Swify!</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="/">Home</a></li>
+                <li><a href="/">About the team</a></li>
+                <li><a href="/">Donate</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %} {% block content %}
+<div class="container" align="center">
+    <div class="page-header">
+        <h1>Welcome to Swify!</h1>
+    </div>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <p>{{ form.url.label }} {{ form.url()}}</p>
+        <p>{{ form.submit }}</p>
+    </form>
+</div>
+{% endblock %}

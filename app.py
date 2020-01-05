@@ -1,13 +1,15 @@
 import os
 import string
 
-from flask import Flask,render_template,redirect,url_for
+from flask import Flask,render_template,redirect,url_for,request
 from flask_wtf import FlaskForm
 from wtforms.fields import StringField,SubmitField
 from flask_sqlalchemy import SQLAlchemy
+from flask_bootstrap import Bootstrap
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')  #get secret key from environment
+bootstrap = Bootstrap(app)
+app.config['SECRET_KEY'] = 'uKUAvkuscabZjkas'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
 db = SQLAlchemy(app)
@@ -51,7 +53,8 @@ def index():
 
 @app.route('/short_url/<string:short_url>')
 def show_url(short_url):
-    url = f'127.0.0.1:5000/{short_url}'
+    host = request.headers.get('host')
+    url = f'{host}/{short_url}'
     return render_template('short_url.html',url=url)
 
 @app.route('/<string:short_url>')
