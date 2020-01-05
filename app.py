@@ -24,9 +24,9 @@ class UrlForm(FlaskForm):
     url = StringField('Enter your url here:')
     submit = SubmitField('Submit')
 
-# @app.before_first_request
-# def create_db():
-#     db.create_all()
+@app.before_first_request
+def create_db():
+    db.create_all()
 
 @app.route('/',methods=['POST','GET'])
 def index():
