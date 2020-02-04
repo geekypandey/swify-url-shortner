@@ -1,9 +1,25 @@
 {%extends "base.html"%}
 
 {%block page_content%}
-<form method="POST">
+<form action="/shorten" method="POST" onsubmit="return shorten(this)">
         {{ form.hidden_tag() }}
         <p>{{ form.url.label }} {{ form.url()}}</p>
-        <p>{{ form.submit }}</p>
-    </form>
+        <div id="output"></div>
+	<p>{{ form.submit }}</p>
+</form>
+<script>
+	function shorten(formElement){
+		let xhr = new XMLHttpRequest();
+		xhr.onreadystatechange = function() {
+			if(this.readyState == 4 && this.status == 200){
+				let obj = JSON.parse(this.responseText);
+				document.getElementById("output").innerHTML = obj.shorten_url;
+			}
+		};
+		xhr.open(formElement.method,formElement.action,true);
+		xhr.send(new FormData(formElement));
+		return false;
+	};
+</script>
+
 {%endblock%}

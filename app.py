@@ -1,7 +1,7 @@
 import os
 import string
 
-from flask import Flask,render_template,redirect,url_for,request
+from flask import Flask,render_template,redirect,url_for,request,jsonify
 from flask_wtf import FlaskForm
 from wtforms.fields import StringField,SubmitField
 from flask_sqlalchemy import SQLAlchemy
@@ -50,11 +50,32 @@ def index():
         return redirect(url_for('show_url',short_url=entry.short_url))
     return render_template('index.html',form=form)
 
+@app.route("/shorten",methods=["POST"])
+def shorten_url():
+    if request.method == "POST":
+        long_url = request.form['url']
+        last_id = len(Mapping.query.all())
+        #logic for short url
+        rem = []
+        while True:
+            remainder = last_id%62
+            rem.append(base62[remainder])
+            last_id = int(last_id/62)
+            if last_id == 0:
+                break
+        rem.reverse()
+        short_url = ''.join(rem)
+        entry = Mapping(long_url=long_url,short_url=short_url)
+        db.session.add(entry)
+        db.session.commit()
+        host = request.headers.get("host")
+        return jsonify({"shorten_url":"{}/{}".format(host,short_url)})
+
 
 @app.route('/short_url/<string:short_url>')
 def show_url(short_url):
     host = request.headers.get('host')
-    url = f'{host}/{short_url}'
+    url = '{}/{}'.format(host,short_url)
     return render_template('short_url.html',url=url)
 
 @app.route('/<string:short_url>')
@@ -62,7 +83,7 @@ def url_redirect(short_url):
     result = Mapping.query.filter_by(short_url=short_url).first()
     if result is None:
         return '<h2>No such url found</h2>'
-    return redirect(f'http://{result.long_url}')
+    return redirect('http://{}'.format(result.long_url))
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0',port=5000,debug=True)
